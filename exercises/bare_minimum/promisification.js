@@ -7,6 +7,7 @@ var fs = require('fs');
 var request = require('request');
 var crypto = require('crypto');
 var util = require('util');
+process.on('unhandledRejection', up => { throw up; });
 
 // (1) Asyncronous HTTP request
 var getGitHubProfile = function(user, callback) {
@@ -27,7 +28,7 @@ var getGitHubProfile = function(user, callback) {
   });
 };
 
-var getGitHubProfileAsync; // TODO
+var getGitHubProfileAsync = util.promisify(getGitHubProfile); // TODO
 
 
 // (2) Asyncronous token generation
@@ -38,13 +39,13 @@ var generateRandomToken = function(callback) {
   });
 };
 
-var generateRandomTokenAsync; // TODO
+var generateRandomTokenAsync = util.promisify(generateRandomToken); // TODO
 
 
 // (3) Asyncronous file manipulation
 var readFileAndMakeItFunny = function(filePath, callback) {
   fs.readFile(filePath, 'utf8', function(err, file) {
-    if (err) { return callback(err); }
+    if (err) { return callback(err, null); }
 
     var funnyFile = file.split('\n')
       .map(function(line) {
@@ -52,11 +53,11 @@ var readFileAndMakeItFunny = function(filePath, callback) {
       })
       .join('\n');
 
-    callback(funnyFile);
+    callback(null, funnyFile);
   });
 };
 
-var readFileAndMakeItFunnyAsync; // TODO
+var readFileAndMakeItFunnyAsync = util.promisify(readFileAndMakeItFunny); // TODO
 
 // Export these functions so we can test them and reuse them in later exercises
 module.exports = {
