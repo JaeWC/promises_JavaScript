@@ -10,11 +10,9 @@ var pluckFirstLineFromFile = function (filePath, callback) {
   // TODO
   fs.readFile(filePath, 'utf-8', function(err, content) {
     if (!err) {
-      console.log('success');
       contentArr = content.split('\n');
       callback(err, contentArr[0]);
     } else {
-      console.log('error');
       callback(err, content);
     }
   });
@@ -25,11 +23,9 @@ var getStatusCode = function (url, callback) {
   // TODO
   request(url, function(err, response) {
     if (!err) {
-      console.log('success');
       response = 200;
       callback(err, response);
     } else {
-      console.log('error');
       callback(err, response);
     }
   });
