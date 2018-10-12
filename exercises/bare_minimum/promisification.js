@@ -7,7 +7,9 @@ var fs = require('fs');
 var request = require('request');
 var crypto = require('crypto');
 var util = require('util');
-process.on('unhandledRejection', up => { throw up; });
+process.on('unhandledRejection', up => {
+  throw up;
+});
 
 // (1) Asyncronous HTTP request
 var getGitHubProfile = function(user, callback) {
@@ -21,7 +23,10 @@ var getGitHubProfile = function(user, callback) {
     if (err) {
       callback(err, null);
     } else if (body.message) {
-      callback(new Error('Failed to get GitHub profile: ' + body.message), null);
+      callback(
+        new Error('Failed to get GitHub profile: ' + body.message),
+        null
+      );
     } else {
       callback(null, body);
     }
@@ -30,24 +35,27 @@ var getGitHubProfile = function(user, callback) {
 
 var getGitHubProfileAsync = util.promisify(getGitHubProfile); // TODO
 
-
 // (2) Asyncronous token generation
 var generateRandomToken = function(callback) {
   crypto.randomBytes(20, function(err, buffer) {
-    if (err) { return callback(err, null); }
+    if (err) {
+      return callback(err, null);
+    }
     callback(null, buffer.toString('hex'));
   });
 };
 
 var generateRandomTokenAsync = util.promisify(generateRandomToken); // TODO
 
-
 // (3) Asyncronous file manipulation
 var readFileAndMakeItFunny = function(filePath, callback) {
   fs.readFile(filePath, 'utf8', function(err, file) {
-    if (err) { return callback(err, null); }
+    if (err) {
+      return callback(err, null);
+    }
 
-    var funnyFile = file.split('\n')
+    var funnyFile = file
+      .split('\n')
       .map(function(line) {
         return line + ' lol';
       })

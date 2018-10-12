@@ -11,7 +11,7 @@ var request = require('request');
 var pluckFirstLineFromFileAsync = function(filePath) {
   // TODO
   return new Promise((resolve, reject) => {
-    fs.readFile(filePath, 'utf-8', function(err, content) {
+    fs.readFile(filePath, 'utf-8', (err, content) => {
       if (!err) {
         resolve(content.split('\n')[0]);
       } else {
@@ -24,7 +24,7 @@ var pluckFirstLineFromFileAsync = function(filePath) {
 var getStatusCodeAsync = function(url) {
   // TODO
   return new Promise((resolve, reject) => {
-    request(url, function(err, response) {
+    request(url, (err, response) => {
       if (!err) {
         var response = 200;
         resolve(response);
