@@ -17,6 +17,13 @@ var writeFileAsync = util.promisify(fs.writeFile);
 
 var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
   // TODO
+  return pluckFirstLineFromFileAsync(readFilePath)
+    .then(function(newUser) {
+      return getGitHubProfileAsync(newUser);
+    })
+    .then(function(securedUser) {
+      return writeFileAsync(writeFilePath, JSON.stringify(securedUser));
+    });
 };
 
 // Export these functions so we can test them
